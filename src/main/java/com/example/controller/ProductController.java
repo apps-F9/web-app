@@ -1,46 +1,37 @@
-package com.example.controller;
+package com.example.service;
 
 import com.example.model.Product;
-import com.example.service.ProductService;
+import com.example.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@RestController
-@RequestMapping("/products")
-public class ProductController {
+@Service
+public class ProductService {
 
-    private final ProductService productService;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-    @GetMapping("/")
     public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+        return productRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    public Product getProductById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        return productOptional.orElse(null);
     }
 
-    @PostMapping("/")
-    public Product addProduct(@RequestBody Product product) {
-        return productService.saveOrUpdateProduct(product);
+    public Product saveOrUpdateProduct(Product product) {
+        return productRepository.save(product);
     }
 
-    @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        product.setId(id); // Ensure the ID matches
-        return productService.saveOrUpdateProduct(product);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
     }
 }
