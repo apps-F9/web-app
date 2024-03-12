@@ -1,37 +1,46 @@
-package com.example.service;
+package com.example.controller;
 
 import com.example.model.Product;
-import com.example.repository.ProductRepository;
+import com.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class ProductService {
+@RestController
+@RequestMapping("/products")
+public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
+    @GetMapping("/")
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productService.getAllProducts();
     }
 
-    public Product getProductById(Long id) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        return productOptional.orElse(null);
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
     }
 
-    public Product saveOrUpdateProduct(Product product) {
-        return productRepository.save(product);
+    @PostMapping("/")
+    public Product addProduct(@RequestBody Product product) {
+        return productService.saveOrUpdateProduct(product);
     }
 
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        product.setId(id); // Ensure the ID matches
+        return productService.saveOrUpdateProduct(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }
