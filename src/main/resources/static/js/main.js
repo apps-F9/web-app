@@ -1,48 +1,45 @@
-document.getElementById('addProductForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
 
-    var productName = document.getElementById('productName').value;
-    var productPrice = document.getElementById('productPrice').value;
+    document.getElementById('addProductForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var productName = document.getElementById('productName').value;
+        var productPrice = document.getElementById('productPrice').value;
 
-    var newProduct = {
-        name: productName,
-        price: productPrice
-    };
+        var product = {
+            name: productName,
+            price: productPrice
+        };
 
-    fetch('/products', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newProduct)
-    })
-    .then(response => response.json())
-    .then(createdProduct => {
-        alert('New product created successfully: ' + createdProduct.name);
-        fetchProductListing();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to create product');
+        fetch('/products/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Product added:', data);
+            loadProducts();
+        })
+        .catch(error => {
+            console.error('Error adding product:', error);
+        });
     });
 });
 
-function fetchProductListing() {
+function loadProducts() {
     fetch('/products/')
-    .then(response => response.json())
-    .then(products => {
-        var productListingHtml = '';
-
-        products.forEach(product => {
-            productListingHtml += '<div>' + product.name + ' - $' + product.price + '</div>';
+        .then(response => response.json())
+        .then(products => {
+            var productListHtml = '';
+            products.forEach(product => {
+                productListHtml += '<div>' + product.name + ' - $' + product.price + '</div>';
+            });
+            document.getElementById('productList').innerHTML = productListHtml;
+        })
+        .catch(error => {
+            console.error('Error fetching products:', error);
         });
-
-        document.getElementById('productListing').innerHTML = productListingHtml;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
 }
-
-// Fetch product listing on page load
-fetchProductListing();

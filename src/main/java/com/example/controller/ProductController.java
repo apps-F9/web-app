@@ -28,8 +28,10 @@ public class ProductController {
         return productService.searchProducts(query);
     }
 
-    @PostMapping("/")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    @PostMapping("/add")
+    public Product addProduct(@RequestBody Product product) {
+        return productService.addProduct(product);
     }
+
+    // Other methods omitted for brevity
 }
