@@ -7,16 +7,33 @@
 </head>
 <body>
     <h1>Product Management</h1>
-    <h2>Add Product</h2>
+    
+    <!-- Form to add a new product -->
     <form id="addProductForm">
-        <label for="productName">Product Name:</label>
-        <input type="text" id="productName" name="productName" required><br><br>
-        <label for="productPrice">Product Price:</label>
-        <input type="number" id="productPrice" name="productPrice" step="0.01" required><br><br>
+        <label for="productName">Product Name</label>
+        <input type="text" id="productName" required>
+        <br>
+        <label for="productPrice">Product Price</label>
+        <input type="number" id="productPrice" required>
+        <br>
         <button type="submit">Add Product</button>
     </form>
+
+    <!-- Product Listing -->
     <h2>Product Listing</h2>
     <div id="productList"></div>
+
+    <!-- Modal for editing product -->
+    <div id="editProductModal" style="display: none;">
+        <h2>Edit Product</h2>
+        <label for="editProductName">Product Name</label>
+        <input type="text" id="editProductName" required>
+        <br>
+        <label for="editProductPrice">Product Price</label>
+        <input type="number" id="editProductPrice" required>
+        <br>
+        <button id="saveProductChanges">Save Changes</button>
+    </div>
 
     <script src="js/main.js"></script>
 </body>

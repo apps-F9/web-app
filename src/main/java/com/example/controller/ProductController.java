@@ -28,10 +28,13 @@ public class ProductController {
         return productService.searchProducts(query);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public Product addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
     }
 
-    // Other methods omitted for brevity
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
+    }
 }

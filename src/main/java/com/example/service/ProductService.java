@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -29,5 +30,15 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Other methods omitted for brevity
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product existingProduct = optionalProduct.get();
+            existingProduct.setName(updatedProduct.getName());
+            existingProduct.setPrice(updatedProduct.getPrice());
+            return productRepository.save(existingProduct);
+        } else {
+            throw new IllegalArgumentException("Product not found with id: " + id);
+        }
+    }
 }
