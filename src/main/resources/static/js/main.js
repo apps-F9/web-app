@@ -1,17 +1,13 @@
-document.getElementById('searchForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    var searchQuery = document.getElementById('searchQuery').value;
-
-    fetch('/products/search?query=' + encodeURIComponent(searchQuery))
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/products/')
         .then(response => response.json())
         .then(products => {
-            var searchResultsHtml = '';
+            var productListHtml = '';
 
             products.forEach(product => {
-                searchResultsHtml += '<div>' + product.name + ' - $' + product.price + '</div>';
+                productListHtml += '<div>' + product.name + ' - $' + product.price + '</div>';
             });
 
-            document.getElementById('searchResults').innerHTML = searchResultsHtml;
+            document.getElementById('productList').innerHTML = productListHtml;
         });
 });
