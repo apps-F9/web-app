@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Search</title>
+    <title>Product Management</title>
 </head>
 <body>
-    <h1>Product Search</h1>
-    <form id="searchForm">
-        <input type="text" id="searchQuery" placeholder="Search...">
-        <button type="submit">Search</button>
+    <h1>Product Management</h1>
+    <form id="addProductForm">
+        <input type="text" id="productName" placeholder="Product Name">
+        <input type="number" id="productPrice" placeholder="Product Price">
+        <button type="submit">Add Product</button>
     </form>
-    <div id="searchResults"></div>
+    <hr>
+    <h2>Product Listing</h2>
+    <div id="productListing"></div>
 
-    <!-- Include any additional scripts here -->
     <script src="js/main.js"></script>
 </body>
 </html>

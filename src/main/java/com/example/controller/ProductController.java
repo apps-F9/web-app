@@ -28,5 +28,8 @@ public class ProductController {
         return productService.searchProducts(query);
     }
 
-    // Other methods omitted for brevity
+    @PostMapping("/")
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
 }

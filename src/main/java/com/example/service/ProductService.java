@@ -25,5 +25,7 @@ public class ProductService {
         return productRepository.findByNameContainingIgnoreCase(query);
     }
 
-    // Other methods omitted for brevity
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
 }
